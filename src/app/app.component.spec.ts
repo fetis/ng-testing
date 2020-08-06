@@ -1,31 +1,45 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+
 import { AppComponent } from './app.component';
+import { DataServiceService } from '../data-service.service';
+
+const dataServiceMock: Partial<DataServiceService> = {
+  country: 'DE'
+};
 
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let nativeEl: HTMLElement;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+      providers: [
+        { provide: DataServiceService, useValue: dataServiceMock }
+      ]
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    nativeEl = fixture.debugElement.nativeElement;
   });
 
-  it(`should have as title 'ng-testing'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('ng-testing');
-  });
+  it('should render other country', () => {
+    const service: DataServiceService = TestBed.get(DataServiceService);
+    service.country = 'FR';
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ng-testing app is running!');
+
+    expect(nativeEl.textContent).toContain('other country');
   });
+
+  it('should render country name', () => {
+    fixture.detectChanges();
+
+    expect(nativeEl.textContent).toContain('Germany');
+  });
+
 });
