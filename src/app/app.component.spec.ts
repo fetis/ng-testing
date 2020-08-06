@@ -27,7 +27,7 @@ describe('AppComponent', () => {
     nativeEl = fixture.debugElement.nativeElement;
   });
 
-  it('should render other country', () => {
+  fit('should render other country', () => {
     const service: DataServiceService = TestBed.get(DataServiceService);
     service.country = 'FR';
 
@@ -36,7 +36,7 @@ describe('AppComponent', () => {
     expect(nativeEl.textContent).toContain('other country');
   });
 
-  it('should render country name', () => {
+  fit('should render country name', () => {
     fixture.detectChanges();
 
     expect(nativeEl.textContent).toContain('Germany');
